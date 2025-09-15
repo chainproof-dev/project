@@ -30,7 +30,7 @@ export default {
   pro: {
     name: 'Pro',
     version: '2.5',
-    modelString: 'gemini-2.5-flash',
+    modelString: 'gemini-2.5-pro',
     shortName: 'Pro',
     thinkingCapable: true,
     thinking: true
