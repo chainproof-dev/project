@@ -6,9 +6,9 @@ export default {
   lite: {
     name: 'Flash-Lite',
     version: '2.5',
-    modelString: 'gemini-2.5-flash',
+    modelString: 'gemini-2.5-flash-lite',
     shortName: 'Lite',
-    thinkingCapable: true,
+    thinkingCapable: false,
     thinking: false
   },
   flash: {
@@ -37,8 +37,8 @@ export default {
   },
   flashImage: {
     name: 'Flash Image',
-    version: '2.5',
-    modelString: 'gemini-2.5-flash-image-preview',
+    version: '2.0',
+    modelString: 'gemini-2.0-flash-preview-image-generation',
     shortName: 'Flash Image',
     thinkingCapable: false,
     thinking: false,
