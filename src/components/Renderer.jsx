@@ -18,21 +18,30 @@ function Renderer({mode, code}) {
   return (
     <div className={`renderer ${mode}Renderer`}>
       {mode === 'image' ? (
-        <img src={code} alt="Generated image" />
+        <img 
+          src={code} 
+          alt="AI generated image" 
+          loading="lazy"
+          onError={() => setShowError(true)}
+        />
       ) : (
         <iframe
           sandbox="allow-same-origin allow-scripts"
           loading="lazy"
           srcDoc={scaffolds[mode] ? scaffolds[mode](code) : code}
           ref={iframeRef}
+          title={`${mode} output`}
+          aria-label={`Interactive ${mode} content`}
         />
       )}
 
       {showError && (
-        <div className="error">
-          <p>
-            <span className="icon">error</span> This code produced an error.
-          </p>
+        <div className="error" role="alert" aria-live="polite">
+          <div>
+            <span className="icon">error</span>
+            <strong>Rendering Error</strong>
+          </div>
+          <p>This content could not be displayed properly. Please try a different prompt.</p>
         </div>
       )}
     </div>

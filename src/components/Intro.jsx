@@ -26,24 +26,25 @@ export default function Intro() {
   )
 
   return (
-    <section className="intro">
+    <section className="intro" role="banner">
       <h2>👋 Welcome to VibeCheck 🌡️</h2>
       <p>
-        This is a playground where you can quickly batch-test prompts with
-        visual outputs. ✅ 👀 Try one below:
+        A powerful playground for testing AI prompts with instant visual outputs. 
+        Choose from different output modes and compare results across multiple models. 
+        ✨ Try a preset below to get started:
       </p>
 
       {Object.entries(modes).map(([key, mode]) =>
         mode.imageOutput ? null : (
-          <div key={key}>
-            <h3>
+          <div key={key} className="preset-category">
+            <h3 role="heading" aria-level="3">
               {mode.emoji} {mode.name}
             </h3>
 
             <div className="selector presetList">
-              <ul className="presets wrapped">
+              <ul className="presets wrapped" role="list" aria-label={`${mode.name} presets`}>
                 {presets[key].map(({label, prompt}) => (
-                  <li key={label}>
+                  <li key={label} role="listitem">
                     <button
                       onClick={() => {
                         setOutputMode(key)
@@ -60,25 +61,12 @@ export default function Intro() {
                         addRound(prompt)
                       }}
                       className="chip"
+                      aria-label={`Try ${label} prompt for ${mode.name}`}
                     >
                       {label}
                     </button>
                   </li>
                 ))}
-                {/* <li>
-                <button
-                  className="chip primary"
-                  onClick={() =>
-                    setPresets(prev => ({
-                      ...prev,
-                      [key]: shuffle(mode.presets).slice(0, 5)
-                    }))
-                  }
-                >
-                  <span className="icon">shuffle</span>
-                  Show more
-                </button>
-              </li> */}
               </ul>
             </div>
           </div>

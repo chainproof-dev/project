@@ -59,56 +59,68 @@ function ModelOutput({
   }, [startTime, isBusy])
 
   return (
-    <div className="modelOutput">
+    <article className="modelOutput" role="article" aria-label={`Output from ${models[model].name}`}>
       <div className={c('outputRendering', {flipped: showSource})}>
         {outputMode !== 'image' && (
-          <div className="back">
+          <div className="back" role="tabpanel" aria-label="Source code">
             <SyntaxHighlighter
               language={modes[outputMode].syntax}
               style={styles.atomOneDark}
+              showLineNumbers={true}
+              wrapLines={true}
             >
               {outputData}
             </SyntaxHighlighter>
           </div>
         )}
 
-        <div className="front">
+        <div className="front" role="tabpanel" aria-label="Rendered output">
           {gotError && (
-            <div className="error">
+            <div className="error" role="alert" aria-live="polite">
               <p>
                 <span className="icon">error</span>
+                Response error
               </p>
-              <p>Response error</p>
+              <p>Please try again or check your prompt.</p>
             </div>
           )}
 
           {isBusy && (
-            <div className="loader">
+            <div className="loader" role="status" aria-label="Loading output">
               <span className="icon">hourglass</span>
+              <span className="sr-only">Generating output...</span>
             </div>
           )}
 
-          {outputData && <Renderer mode={outputMode} code={outputData} />}
+          {outputData && (
+            <Renderer 
+              mode={outputMode} 
+              code={outputData} 
+              aria-label={`${outputMode} output`}
+            />
+          )}
         </div>
       </div>
 
-      <div className="modelInfo">
+      <footer className="modelInfo">
         <div className="modelName">
-          <div>
+          <div role="heading" aria-level="4">
             {models[model].version} {models[model].name}
           </div>
           {(time || totalTime) && (
-            <div className="timer">
+            <div className="timer" aria-label={`Generation time: ${((isBusy ? time : totalTime) / 1000).toFixed(2)} seconds`}>
               {((isBusy ? time : totalTime) / 1000).toFixed(2)}s
             </div>
           )}
         </div>
 
-        <div className={c('outputActions', {active: outputData})}>
+        <div className={c('outputActions', {active: outputData})} role="toolbar" aria-label="Output actions">
           {outputMode !== 'image' && (
             <button
               className="iconButton"
               onClick={() => setShowSource(!showSource)}
+              aria-label={`View ${showSource ? 'rendering' : 'source code'}`}
+              aria-pressed={showSource}
             >
               <span className="icon">{showSource ? 'visibility' : 'code'}</span>
               <span className="tooltip">
@@ -117,7 +129,11 @@ function ModelOutput({
             </button>
           )}
 
-          <button className="iconButton" onClick={copySource}>
+          <button 
+            className="iconButton" 
+            onClick={copySource}
+            aria-label={`Copy ${outputMode === 'image' ? 'image' : 'source code'}`}
+          >
             <span className="icon">content_copy</span>
             <span className="tooltip">
               {copied
@@ -128,8 +144,8 @@ function ModelOutput({
             </span>
           </button>
         </div>
-      </div>
-    </div>
+      </footer>
+    </article>
   )
 }
 
